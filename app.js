@@ -18,7 +18,7 @@ io.on('connection', function (socket) {
   console.log('made socket connection');
 
   socket.on('location', function (data) {
-    io.sockets.emit('location', data);
+    socket.broadcast.emit('location', data);
   });
   
 });

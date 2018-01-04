@@ -16,17 +16,19 @@ var io = socket(server);
 
 io.on('connection', function (socket) {
   console.log('made socket connection');
-  
+
+  socket.on('newUser', function (data) {
+    socket.broadcast.emit('newUser', data);
+  });
+
   socket.on('location', function (data) {
     if (data.user == undefined) {
-      console.log('nothing');
-      
+
     } else {
-      setInterval(function(){ 
-      socket.broadcast.emit('location', data);
-      console.log(data.user); 
-     }, 20000);
+      setInterval(function () {
+        socket.broadcast.emit('location', data);
+      }, 6000);
     }
   });
-  
+
 });

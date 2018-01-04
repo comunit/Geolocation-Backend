@@ -27,6 +27,7 @@ io.on('connection', function (socket) {
     } else {
       setInterval(function () {
         socket.broadcast.emit('location', data);
+        console.log(data);
       }, 6000);
     }
   });

@@ -14,22 +14,44 @@ var server = app.listen(port, function () {
 //socket setup
 var io = socket(server);
 
+var loc = []
+var inout;
 io.on('connection', function (socket) {
   console.log('made socket connection');
 
   socket.on('newUser', function (data) {
+    var data = {
+      user: data.user,
+      id: socket.id
+    }
     socket.broadcast.emit('newUser', data);
+    console.log(data);
   });
 
   socket.on('location', function (data) {
-    if (data.user == undefined) {
-
-    } else {
+    if (data.user == undefined) {} else {
+      loc.push(data);
       setInterval(function () {
-        socket.broadcast.emit('location', data);
-        console.log(data);
-      }, 6000);
+        socket.broadcast.emit('location', {
+          loc,
+          inout
+        });
+      }, 15000);
     }
+
+    socket.on('disconnect', function () {
+      for (let i = 0; i < loc.length; i++) {
+        const element = loc[i];
+
+        if (socket.id == element.id) {
+          for (let i = 0; i < loc.length; i++)
+            if (loc[i].id == element.id) {
+              loc.splice(i, 1);
+            }
+            console.log(loc);
+        }
+      }
+    });
   });
 
 });

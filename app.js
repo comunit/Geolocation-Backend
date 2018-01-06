@@ -1,4 +1,3 @@
-require('events').EventEmitter.prototype._maxListeners = 0;
 var express = require('express');
 var socket = require('socket.io');
 
@@ -30,12 +29,26 @@ io.on('connection', function (socket) {
 
   socket.on('location', function (data) {
     if (data.user == undefined) {} else {
-      loc.push(data);
+      if (typeof loc !== 'undefined' && loc.length > 0) {
+        for (let i = 0; i < loc.length; i++) {
+          const element = loc[i];
+          console.log(element.id)
+          if (element.id == data.id) {
+            element.lat = data.lat;
+            element.lng = data.lng;
+            console.log(data.user + 'updated')
+          }
+        }
+      } else {
+        loc.push(data)
+      }
+      console.log(loc);
       setInterval(function () {
         socket.broadcast.emit('location', {
           loc,
           inout
         });
+        // console.log(loc);
       }, 10000);
     }
 

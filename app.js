@@ -25,7 +25,6 @@ io.on('connection', function (socket) {
       id: socket.id
     }
     socket.broadcast.emit('newUser', data);
-    console.log(data);
   });
 
   socket.on('location', function (data) {
@@ -36,7 +35,6 @@ io.on('connection', function (socket) {
           loc,
           inout
         });
-        console.log(loc);
       }, 15000);
     }
 

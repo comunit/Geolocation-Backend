@@ -1,3 +1,4 @@
+require('events').EventEmitter.prototype._maxListeners = 0;
 var express = require('express');
 var socket = require('socket.io');
 
@@ -35,7 +36,7 @@ io.on('connection', function (socket) {
           loc,
           inout
         });
-      }, 15000);
+      }, 10000);
     }
 
     socket.on('disconnect', function () {

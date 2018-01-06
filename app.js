@@ -44,7 +44,7 @@ io.on('connection', function (socket) {
       // Listen for disconneted ids and send it back to clients
       socket.broadcast.emit('disconnectId', {
         disconnetId: socket.id
-      });  
+      });
 
 
       console.log(socket.id + " disconnected");

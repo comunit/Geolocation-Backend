@@ -36,19 +36,28 @@ io.on('connection', function (socket) {
           loc,
           inout
         });
+        console.log(loc);
       }, 15000);
     }
 
     socket.on('disconnect', function () {
+
+
+      // Listen for disconneted ids and send it back to clients
+      socket.broadcast.emit('disconnectId', {
+        disconnetId: socket.id
+      });  
+
+
+      console.log(socket.id + " disconnected");
+      //Find disconncted user and remove it from loc array
       for (let i = 0; i < loc.length; i++) {
         const element = loc[i];
-
         if (socket.id == element.id) {
           for (let i = 0; i < loc.length; i++)
             if (loc[i].id == element.id) {
               loc.splice(i, 1);
             }
-            console.log(loc);
         }
       }
     });

@@ -18,9 +18,6 @@ var io = socket(server);
 var loc = [];
 var inout;
 io.on('connection', function (socket) {
-  console.log(io.engine.clientsCount);
-  console.log('made socket connection');
-
   socket.on('newUser', function (data) {
     var data = {
       user: data.user,
@@ -32,16 +29,28 @@ io.on('connection', function (socket) {
   socket.on('location', function (data) {
 
     if (data.user == undefined) {} else {
-      loc.push(data)
-      setInterval(function () {
+
+      let obj = loc.find(o => o.id === data.id);
+      if (obj == undefined) {
+        loc.push(data);
+      } else {
+        let obj = loc.find((o, i) => {
+          //Find index of lat and lng using using findIndex method.    
+          objIndex = loc.findIndex((obj => obj.id == data.id));
+          //Update userslat and lng property.
+          loc[objIndex].lat = data.lat;
+          loc[objIndex].lng = data.lng;
+          loc[objIndex].user = data.user;
+        });
+      }
+
+      // send information back to client
         socket.broadcast.emit('location', {
           loc,
           inout
         });
-        console.log(loc);
-      }, 10000);
     }
-    
+
     socket.on('disconnect', function () {
 
 

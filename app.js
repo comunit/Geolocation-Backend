@@ -27,7 +27,6 @@ io.on('connection', function (socket) {
   });
 
   socket.on('location', function (data) {
-
     if (data.user == undefined) {} else {
 
       let obj = loc.find(o => o.id === data.id);
@@ -45,10 +44,10 @@ io.on('connection', function (socket) {
       }
 
       // send information back to client
-        socket.broadcast.emit('location', {
-          loc,
-          inout
-        });
+      socket.broadcast.emit('location', {
+        loc,
+        inout
+      });
     }
 
     socket.on('disconnect', function () {
@@ -71,7 +70,6 @@ io.on('connection', function (socket) {
             }
         }
       }
-
     });
   });
 

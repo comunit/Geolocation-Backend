@@ -42,13 +42,13 @@ io.on('connection', function (socket) {
           loc[objIndex].user = data.user;
         });
       }
-
-      // send information back to client
-      socket.broadcast.emit('location', {
-        loc,
-        inout
-      });
     }
+
+    // send information back to client
+    socket.broadcast.emit('location', {
+      loc,
+      inout
+    });
 
     socket.on('disconnect', function () {
 

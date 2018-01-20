@@ -27,9 +27,10 @@ io.on('connection', function (socket) {
   });
 
   socket.on('location', function (data) {
-    if (data.user == undefined) {} else {
 
+    if (data.user == undefined) {} else {
       let obj = loc.find(o => o.id === data.id);
+
       if (obj == undefined) {
         loc.push(data);
       } else {
@@ -45,7 +46,7 @@ io.on('connection', function (socket) {
     }
 
     // send information back to client
-    socket.broadcast.emit('location', {
+    socket.emit('location', {
       loc,
       inout
     });
